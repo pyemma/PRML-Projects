@@ -1,0 +1,196 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Frits Wenneker (http://www.howtotex.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[paper=a4, fontsize=12pt]{scrartcl} % A4 paper and 11pt font size
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm} % Math packages
+\usepackage{graphicx}
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+
+\usepackage{sectsty} % Allows customizing section commands
+\allsectionsfont{\centering \normalfont\scshape} % Make all sections centered, the default font and small caps
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{\thepage} % Page numbering for right footer
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs - comment this line for an assignment with lots of text
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+\normalfont \normalsize 
+\textsc{University of California, Los Angeles\\
+Department of Computer Science} \\ [25pt] % Your university, school and/or department name(s)
+\horrule{0.5pt} \\[0.4cm] % Thin top horizontal rule
+\huge CS 276A assignment 2 \\ % The assignment title
+\horrule{2pt} \\[0.5cm] % Thick bottom horizontal rule
+}
+
+\author{Yang Pei\\
+304434922} % Your name
+
+\date{\normalsize\today} % Today's date or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%	PROBLEM 1
+%----------------------------------------------------------------------------------------
+
+\section{Problem 1}
+After the re-weight, all examples classified correctly have weight $w_{n+1}(x) = w_{n}(x)\times e^{-\alpha_{+}}$ and those classified wrong have weight $w_{n+1}(x) = w_{n}(x)\times e^{\alpha_{+}}$. We could divide the entire sample into two set $\Omega = {A, \bar{A}}$ correspoding to the samples classified correctly and wrong. Since the total sample weight sum to 1, we could have
+\begin{equation}
+\label{equ1}
+\sum_{x\in A}w_{n+1} + \sum_{x\in \bar{A}}w_{n+1} = \sum_{x\in A}w_{n}\times e^{-\alpha_{+}} + \sum_{x\in \bar{A}}w_{n}\times e^{\alpha_{+}} = 1
+\end{equation}
+ We notice that $\sum_{x\in A}w_{n} = 1 - err_{n}(h_{+})$ and $\sum_{x\in \bar{A}} = err_{n}(h_{+})$. Then, we could obtain
+\begin{equation}
+\label{equ2}
+(1 - err_{n}(h_{+}))e^{-\alpha_{+}} + err_{n}(h_{+})e^{\alpha_{+}} = 1
+\end{equation}
+Then we plugin $\alpha_{+} = \frac{1}{2}log\frac{1-err_{n}(h_{+})}{err_{n}(h_{+})}$ into the equation \ref{equ2} and obtain
+\begin{equation}
+\label{equ3}
+2\sqrt{(1 - err_{n}(h_{+}))err_{n}(h_{+})} = 1
+\end{equation}
+From \ref{equ3} we know that $\sqrt{(1 - err_{n}(h_{+}))err_{n}(h_{+})} = \frac{1}{2}$. 
+We know that
+\begin{equation}
+\label{equ4}
+err_{n+1}(h_{+}) = err_{n}(h_{+})e^{\alpha_{+}} = \sqrt{(1 - err_{n}(h_{+}))err_{n}(h_{+})}
+\end{equation}
+Combine \ref{equ4} and the result from \ref{equ3} we have $err_{n+1}(h_{+}) = \frac{1}{2}$, therefor $h_{+}()$ won't be selected in the next step.
+%------------------------------------------------
+%	PROBLEM 2
+%----------------------------------------------------------------------------------------
+
+\section{Problem 2}
+
+%------------------------------------------------
+\begin{enumerate}
+\item We could have the following deduction:
+\begin{equation}
+\label{equ5}
+\begin{aligned}
+-\int p(x)\log p(x)dx = -\int p(x)\log (\frac{p(x)}{unif(x)} unif(x))dx \\
+= -\int p(x)\log (\frac{p(x)}{unif(x)})dx -\int p(x)\log (unif(x))dx \\
+= -KL(p(x)||unif(x)) -\int p(x)\log (unif(x))dx
+\end{aligned}
+\end{equation}
+Since the $unif(x)$ is uniform distribution, $unif(x) = \frac{1}{N}$ and it is a constant. And since we use model $p(x)$ to estimate the underlaying distribution $f(x)$, $p(x)$ must be convergent that is $\int p(x)dx = c$ where $c$ is some finiate constant. So, the second term in \ref{equ5} is constant. Thus we could re-write 
+\begin{equation}
+\label{equ6}
+\begin{aligned}
+p^{*} = arg\max -\int p(x)\log p(x)dx = arg\max C -KL(p(x)||unif(x)) \\
+= arg\max -KL(p(x)||unif(x))
+\end{aligned}
+\end{equation}	
+which means the maximum entropy principle is the same with minimizing the Kullback-Leibler divergence to the uniform distribution.
+
+\item If we constraint that $p(x)$ normalizes to 1, then we are solving the problem with a constraint and thus we could utilize Lagrange Multiplier. We plugin the constraints and obtain
+\begin{equation}
+\label{equ7}
+L = -\int p(x)\log p(x)dx + \lambda_{0}(\int p(x)dx - 1) = 0
+\end{equation}
+then we have
+\begin{equation}
+\label{equ8}
+\frac{\partial L}{\partial p(x)} = \int -\log p(x) + \lambda_{0} - 1 dx = 0
+\end{equation}
+That is to say $-\log P(x) + \lambda_{0} - 1 = 0$, and we have $p(x) = e^{\lambda_{0} - 1}$ Since we know $\int p(x)dx = 1$, then we know $e^{\lambda_{0} - 1}$ must be bounded and hence it should be 1. Thus $p(x) = \frac{1}{Z}$ where $Z$ is a term used to normalize the distribution and the optimal probability $p^{*}(x)$ is uniform distribution.
+
+From the conclusion above, we know that the uniform distribution has the maximum distribution and is the solution for maximum entropy. Kullback-Leibler divergence measure the "distance" or similarity between to distribution. If the two distributions are all same, then they would have 0 KL divergence. So minimizing KL divergence with unifrom distribtuion, we are try to find the distribution that is the most possbile same with uniform distribution, which is the same goal as in maximum entropy.
+\end{enumerate}
+%------------------------------------------------
+\section{Problem 3}
+\begin{enumerate}
+\item Given the data set $D$, we could have $P(D|\Theta) = \prod_{i = 1}^{N} p(y_{i};\Theta)$. So the log-likelihood function $\ell(\Theta)$ for the observed data D is 
+\begin{equation}
+\ell(\Theta) = \sum_{i = 1}^{N}(logP(y_{i}; \Theta)) = \sum_{j = 1}^{K} n_{i}\log \theta_{i}
+\end{equation}
+\item We consider the class i and take partial derivation. We could have the following deduction:
+\begin{equation}
+\begin{aligned}
+\frac{\partial \ell(\Theta)}{\partial \theta_{i}} = \sum_{i=1}^{N}\frac{\partial logP(y_{i};\Theta)}{\theta_{i}} = \sum_{i=1}^{N}\frac{1}{P(y_{i};\Theta)}\frac{\partial P(y_{i};\Theta)}{\partial \theta_{i}} = 0
+\end{aligned}
+\end{equation}
+Since we could separate the whole data into two parts: labeled with i and not i. For the sample labeled with i we have $P(y_{i};\Theta) = \theta_{i}$ and for the sample not labeled with i we have $P(y_{i};\Theta) = 1 - \theta_{i}$. So we could get 
+\begin{equation}
+\label{equ7}
+\sum_{y = i}\frac{1}{P(y_{i}; \Theta)} - \sum_{y \neq i}\frac{1}{P(y_{i}; \Theta)} = 0
+\end{equation}
+Then we plugin $p(y = i; \Theta) = \theta_{i}$ and could obtain $\frac{n_{i}}{\theta_{i}} - \frac{n - n_{i}}{1 - \theta_{i}} = 0$ and obtian $\theta_{i} = \frac{n_{i}}{n}$.
+\end{enumerate}
+
+\section{Problem 4}
+\begin{enumerate}
+\item The log-likelihood function $\ell(\Theta)$ would be
+\begin{equation}
+\label{equ8}
+\begin{aligned}
+\ell(\Theta) = \log \prod_{i=1}^{N}p(x_{i};\Theta) = \sum_{i=1}^{N}\log p(x_{i};\Theta) \\
+= -N\log Z + \sum_{i=1}^{N}\sum_{j=1}^{K}\lambda_{j}\phi_{j}(x)
+\end{aligned}
+\end{equation}
+\item Since $Z$ is used to normalize the probablity, we know $Z = \sum_{i=1}{N}e^{-\sum_{j=1}{K}\lambda_{j}\phi_{j}(x_{i})}$. Then we could have 
+\begin{equation}
+\label{equ9}
+\begin{aligned}
+\frac{\partial\ell (\Theta)}{\theta_{i}} = -\sum_{i=1}^{N}\phi_{j}(x_{i}) - N\frac{\partial Z}{\partial \theta_{i}} \\
+= -\sum_{i=1}^{N}\phi_{j}(x_{i}) + \frac{N}{Z}\sum_{i=1}^{N}e^{-\sum_{j=1}^{K}\lambda_{j}\phi_{j}(x_{i})}\phi_{j}(x_{i}) \\
+= -\sum_{i=1}^{N}\phi_{j}(x_{i}) + \frac{N}{Z}\int e^{-\sum_{j=1}^{K}\lambda_{j}\phi_{j}(x)}\phi_{j}(x)dx \\
+= -\sum_{i=1}^{N}\phi_{j}(x_{i}) + N\int p(x; \Theta)\phi_{j}(x)dx = 0
+\end{aligned}
+\end{equation}
+Solving the \ref{equ9} we could obtain
+\begin{equation}
+\int p(x; \Theta)\phi_{j}(x)dx = \frac{1}{N}\sum_{i=1}^{N}\phi_{j}(x_{i})
+\end{equation}
+for all $j = 1, 2, ..., K$.
+\end{enumerate}
+\section{Problem 5}
+\begin{enumerate}
+\item For $d = 1$ the $l = r$ and for $d = 2$ the $l = r^{\frac{1}{2}}$. With $r = 0.1$, then $l = 0.1$ and $l = 0.3162$ each.
+
+\item Since $l^d = r$, then we have $l = r^{\frac{1}{d}}$. With $d = 100$ and $r = 0.1$, $l = 0.9772$.
+
+\item For $d = 10100$ and $r = 0.01$, then $l = 0.9995$. For $r = 0.1$, then $l = 0.9997$. From the calculation, we could see that with the increase of the dimension, to obtain the same amount informaiton, we need larger length of the hypercube. This means that the points are distributed scatteredly among all dimensions in the space. And we could also see that with large $d$, we increase a little bit of the length, we increase a quite large amount of the points, this means that the points are laying near the sufaces of the unit hypercube.
+\end{enumerate}
+\end{document}
